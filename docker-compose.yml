@@ -1,0 +1,11 @@
+services:
+
+  backend:
+    build: ./backend
+    container_name: ai-report-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}

@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+    font-family: Inter, system-ui;
+    background: #f4f6fb;
+}
+
+.dashboard {
+    max-width: 1400px;
+    margin: auto;
+    padding: 30px;
+}
+
+
+/* HERO */
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.hero-left h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.hero-left p {
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+.hero-actions button {
+    margin-left: 10px;
+}
+
+
+/* BUTTONS */
+
+.btn-primary {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+/* KPI */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.kpi-card {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.kpi-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* CHARTS */
+
+.section-title {
+    margin: 30px 0 15px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-desc {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.chart-canvas {
+    height: 250px;
+}
+
+
+/* INSIGHTS */
+
+.insight-card,
+.prediction-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+}
+
+.insight-card li,
+.prediction-card li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
