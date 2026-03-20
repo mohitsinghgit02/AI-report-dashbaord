@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
 import AILoader from "../components/AILoader";
+import AIDrawerChat from "../components/DataChat";
 import "../styles/dashboard.css";
 
 export default function ReportViewer() {
 
     const [dashboard, setDashboard] = useState(null);
     const [lang, setLang] = useState("en");
+    const [refKey, setRefKey] = useState(null);
 
     const chartRefs = useRef({});
 
@@ -21,10 +23,6 @@ export default function ReportViewer() {
         "#EC4899"
     ];
 
-    // -----------------------------
-    // Normalize Chart Type
-    // -----------------------------
-
     const normalizeChartType = (type) => {
 
         if (!type) return "bar";
@@ -38,10 +36,6 @@ export default function ReportViewer() {
 
         return t;
     };
-
-    // -----------------------------
-    // Clean Chart Data
-    // -----------------------------
 
     const cleanChartData = (chart) => {
 
@@ -61,10 +55,6 @@ export default function ReportViewer() {
 
         return chart;
     };
-
-    // -----------------------------
-    // Normalize API Response
-    // -----------------------------
 
     const normalizeDashboard = (data) => {
 
@@ -98,10 +88,6 @@ export default function ReportViewer() {
 
     };
 
-    // -----------------------------
-    // Fetch Dashboard
-    // -----------------------------
-
     useEffect(() => {
 
         const params = new URLSearchParams(window.location.search);
@@ -118,6 +104,8 @@ export default function ReportViewer() {
             .then(res => res.json())
             .then(data => {
 
+                setRefKey(data.ref_key);
+
                 const normalized = normalizeDashboard(data);
 
                 setDashboard(normalized);
@@ -128,10 +116,6 @@ export default function ReportViewer() {
             .catch(err => console.error(err));
 
     }, []);
-
-    // -----------------------------
-    // Chart Rendering
-    // -----------------------------
 
     const renderCharts = (charts) => {
 
@@ -186,10 +170,6 @@ export default function ReportViewer() {
 
     };
 
-    // -----------------------------
-    // Speech Narration
-    // -----------------------------
-
     const speakText = (text) => {
 
         if (!("speechSynthesis" in window)) return;
@@ -198,14 +178,9 @@ export default function ReportViewer() {
 
         const voices = window.speechSynthesis.getVoices();
 
-        // try Gujarati first
         let voice =
             voices.find(v => v.lang.startsWith("gu")) ||
-
-            // fallback Hindi (works well for Gujarati)
             voices.find(v => v.lang.startsWith("hi")) ||
-
-            // fallback English
             voices.find(v => v.lang.startsWith("en"));
 
         if (voice) utter.voice = voice;
@@ -215,15 +190,9 @@ export default function ReportViewer() {
 
     if (!dashboard) return <AILoader />;
 
-    // -----------------------------
-    // UI
-    // -----------------------------
-
     return (
 
         <div className="dashboard">
-
-            {/* HERO */}
 
             <div className="hero">
 
@@ -247,8 +216,6 @@ export default function ReportViewer() {
                 </div>
 
             </div>
-
-            {/* KPI */}
 
             <div className="kpi-grid">
 
@@ -278,8 +245,6 @@ export default function ReportViewer() {
                 ))}
 
             </div>
-
-            {/* CHARTS */}
 
             <h2 className="section-title">📊 Data Visualization</h2>
 
@@ -314,8 +279,6 @@ export default function ReportViewer() {
 
             </div>
 
-            {/* INSIGHTS */}
-
             <h2 className="section-title">🤖 AI Insights</h2>
 
             <div className="insight-card">
@@ -342,8 +305,6 @@ export default function ReportViewer() {
                 </ul>
 
             </div>
-
-            {/* PREDICTIONS */}
 
             {dashboard.predictions.length > 0 && (
 
@@ -379,6 +340,10 @@ export default function ReportViewer() {
                 </>
 
             )}
+
+            {/* CHAT */}
+
+            {refKey && <AIDrawerChat refKey={refKey} />}
 
         </div>
 

@@ -1,7 +1,12 @@
+/* ------------------------------
+GLOBAL
+------------------------------ */
+
 body {
     margin: 0;
     font-family: Inter, system-ui;
     background: #f4f6fb;
+    color: #111827;
 }
 
 .dashboard {
@@ -11,7 +16,9 @@ body {
 }
 
 
-/* HERO */
+/* ------------------------------
+HERO
+------------------------------ */
 
 .hero {
     display: flex;
@@ -39,7 +46,9 @@ body {
 }
 
 
-/* BUTTONS */
+/* ------------------------------
+BUTTONS
+------------------------------ */
 
 .btn-primary {
     background: #6366f1;
@@ -66,7 +75,9 @@ body {
 }
 
 
-/* KPI */
+/* ------------------------------
+KPI CARDS
+------------------------------ */
 
 .kpi-grid {
     display: grid;
@@ -88,7 +99,9 @@ body {
 }
 
 
-/* CHARTS */
+/* ------------------------------
+CHARTS
+------------------------------ */
 
 .section-title {
     margin: 30px 0 15px;
@@ -123,7 +136,9 @@ body {
 }
 
 
-/* INSIGHTS */
+/* ------------------------------
+INSIGHTS
+------------------------------ */
 
 .insight-card,
 .prediction-card {
@@ -139,4 +154,307 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+}
+
+
+/* ==============================
+AI CHAT
+============================== */
+
+/* Floating button */
+
+.ai-chat-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #6366f1;
+    color: white;
+    font-size: 26px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+
+/* Drawer */
+
+.ai-drawer {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 420px;
+    height: 100vh;
+    background: white;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.ai-drawer.open {
+    right: 0;
+}
+
+/* Expanded mode */
+
+.ai-drawer.expanded {
+    width: 85vw;
+}
+
+
+/* ------------------------------
+CHAT HEADER
+------------------------------ */
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    background: #f9fafb;
+}
+
+.ai-header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.expand-btn {
+    border: none;
+    background: #eee;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.ai-subtitle {
+    font-size: 12px;
+    color: #777;
+}
+
+.ai-close {
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+/* ------------------------------
+LANGUAGE SELECT
+------------------------------ */
+
+.ai-lang-select {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.ai-lang-select select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+/* ------------------------------
+MESSAGES
+------------------------------ */
+
+.ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fafafa;
+}
+
+
+/* Message layout */
+
+.ai-message {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.ai-message.user {
+    justify-content: flex-end;
+}
+
+
+/* Bubble */
+
+.bubble {
+    max-width: 75%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.ai-message.user .bubble {
+    background: #6366f1;
+    color: white;
+}
+
+.ai-message.ai .bubble {
+    background: white;
+    border: 1px solid #eee;
+}
+
+
+/* ------------------------------
+MARKDOWN
+------------------------------ */
+
+.markdown-body {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Tables */
+
+.table-wrapper {
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+.table-wrapper table {
+    border-collapse: collapse;
+    min-width: 500px;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* Code blocks */
+
+.code-block {
+    background: #1e1e1e;
+    color: #eee;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+.inline-code {
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+
+/* ------------------------------
+SPEECH CONTROLS
+------------------------------ */
+
+.speech-controls {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+}
+
+.speech-controls button {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e5e7eb;
+    cursor: pointer;
+}
+
+
+/* ------------------------------
+INPUT AREA
+------------------------------ */
+
+.ai-input {
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid #eee;
+    background: white;
+    gap: 8px;
+}
+
+.ai-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.ai-input button {
+    padding: 10px 16px;
+    background: #6366f1;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+/* ------------------------------
+VOICE BUTTON
+------------------------------ */
+
+.voice-btn.listening {
+    background: red;
+    color: white;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* ------------------------------
+SCROLLBAR
+------------------------------ */
+
+.ai-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ai-messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 6px;
+}
+
+
+/* ------------------------------
+RESPONSIVE
+------------------------------ */
+
+@media (max-width:900px) {
+
+    .ai-drawer {
+        width: 100%;
+    }
+
+    .ai-drawer.expanded {
+        width: 100%;
+    }
+
+    .bubble {
+        max-width: 90%;
+    }
+
 }

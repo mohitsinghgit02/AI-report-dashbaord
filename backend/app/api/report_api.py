@@ -5,6 +5,7 @@ import pandas as pd
 from app.services.groq_service import generate_llm_data
 from app.services.s3_loader import download_s3_file
 from app.services.report_registry import REPORT_REGISTRY
+from app.cache.session_store import create_session
 
 router = APIRouter()
 
@@ -54,8 +55,9 @@ def parse_llm_response(response):
 
 
 def merge_dashboard(pandas_data, ai_data):
-
+    ref_key = create_session(pandas_data)
     return {
+        "ref_key": ref_key,
         "title": "AI Generated Data Dashboard",
         "overview": pandas_data["overview"],
         "kpis": pandas_data["kpis"][:3],

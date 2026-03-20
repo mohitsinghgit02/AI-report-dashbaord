@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.report_api import router
+from app.api.report_api import router as report_router
+from app.api.chat_api import router as chat_router
 
 app = FastAPI(title="AI Report Generator", version="1.0")
 
@@ -15,7 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router, prefix="/api")
+app.include_router(report_router, prefix="/api")
+app.include_router(chat_router, prefix="/api")
 
 
 @app.get("/")
