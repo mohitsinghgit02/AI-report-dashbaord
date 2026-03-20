@@ -112,7 +112,7 @@ export default function ReportViewer() {
         setLang(urlLang);
 
         const api =
-            `${process.env.REACT_APP_API_URL}/report?file=${file}&lang=${urlLang}`;
+            `${process.env.REACT_APP_API_URL}/reports/damage_stock?file=${file}&lang=${urlLang}`;
 
         fetch(api)
             .then(res => res.json())

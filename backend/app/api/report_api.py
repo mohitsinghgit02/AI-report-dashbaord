@@ -1,28 +1,33 @@
 from fastapi import APIRouter, HTTPException
 import json
 import re
-from app.services.data_loader import load_csv
-from app.services.pandas_analyzer import analyze_data
-from app.services.prompt_builder import build_prompt
-from app.services.groq_service import generate_html_dashboard
-from app.services.html_validator import sanitize_html
+import pandas as pd
+from app.services.groq_service import generate_llm_data
+from app.services.s3_loader import download_s3_file
+from app.services.report_registry import REPORT_REGISTRY
 
 router = APIRouter()
 
 
-@router.get("/report")
-def generate_report(file: str, lang: str = "en"):
+@router.get("/reports/{report_type}")
+def generate_report(report_type: str, file: str, lang: str = "en"):
 
-    df = load_csv(file)
+    if report_type not in REPORT_REGISTRY:
+        raise HTTPException(status_code=400, detail="Invalid report type")
 
-    pandas_analysis = analyze_data(df)
+    report_service = REPORT_REGISTRY[report_type]
 
-    if "error" in pandas_analysis:
-        return pandas_analysis
+    local_file = f"/tmp/{file.split('/')[-1]}"
 
-    prompt = build_prompt(pandas_analysis, lang)
+    download_s3_file(file, local_file)
 
-    ai_response = generate_html_dashboard(prompt)
+    df = pd.read_csv(local_file)
+
+    pandas_analysis = report_service.analyze(df)
+
+    prompt = report_service.build_prompt(pandas_analysis, lang)
+
+    ai_response = generate_llm_data(prompt)
 
     ai_json = parse_llm_response(ai_response)
 
@@ -32,44 +37,20 @@ def generate_report(file: str, lang: str = "en"):
 
 
 def parse_llm_response(response):
-    """
-    Parse LLM JSON response safely.
-    Accepts str, bytes, or dict.
-    Returns dict or None.
-    """
 
-    print("Raw LLM response:", response)
-    # Already a dict → return as-is
     if isinstance(response, dict):
         return response
 
-    # If bytes → decode
     if isinstance(response, bytes):
         response = response.decode("utf-8")
 
-    # Must be string now
-    if not isinstance(response, str):
-        print("Error: response must be str, bytes, or dict.")
-        return None
-
-    # Remove ```json or ``` wrapping
     cleaned = re.sub(r"^```json\s*|```$", "", response.strip(), flags=re.MULTILINE)
-
-    # Remove trailing commas before closing braces/brackets
     cleaned = re.sub(r",(\s*[\]}])", r"\1", cleaned)
-
-    # Validate it looks like JSON
-    if not cleaned.startswith("{") and not cleaned.startswith("["):
-        print("Error: JSON does not start with { or [")
-        print("Raw response:", response)
-        return None
 
     try:
         return json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        print("JSON Decode Error:", e)
-        print("Cleaned response:", cleaned)
-        return None
+    except Exception:
+        return {}
 
 
 def merge_dashboard(pandas_data, ai_data):
